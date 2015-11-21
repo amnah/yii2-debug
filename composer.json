@@ -1,5 +1,5 @@
 {
-    "name": "amnah/yii2-debug-ajax",
+    "name": "amnah/yii2-debug",
     "description": "Yii 2 Debug extension that captures ajax calls",
     "keywords": ["yii", "yii2", "debug", "ajax"],
     "type": "yii2-extension",

@@ -1,0 +1,19 @@
+{
+    "name": "amnah/yii2-debug-ajax",
+    "description": "Yii 2 Debug extension that captures ajax calls",
+    "keywords": ["yii", "yii2", "debug", "ajax"],
+    "type": "yii2-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "amnah",
+            "email": "amnah.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2-debug": "*"
+    },
+    "autoload": {
+        "psr-4": { "amnah\\yii2\\debug\\": "" }
+    }
+}

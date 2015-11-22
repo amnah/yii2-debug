@@ -52,7 +52,9 @@ var yiiDebugToolbar = new function() {
             success: function (xhr) {
                 var div = document.createElement('div');
                 div.innerHTML = xhr.responseText;
-                e.parentNode.replaceChild(div, e);
+                if (e.parentNode) {
+                    e.parentNode.replaceChild(div, e);
+                }
                 if (window.localStorage) {
                     var pref = localStorage.getItem('yii-debug-toolbar');
                     if (pref == 'minimized') {

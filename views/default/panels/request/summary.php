@@ -18,6 +18,6 @@ if ($statusCode >= 200 && $statusCode < 300) {
 $statusText = Html::encode(isset(Response::$httpStatuses[$statusCode]) ? Response::$httpStatuses[$statusCode] : '');
 ?>
 <div class="yii-debug-toolbar-block">
-    <a href="<?= $panel->getUrl() ?>" title="Status code: <?= $statusCode ?> <?= $statusText ?>">Status <span class="label <?= $class ?>"><?= $statusCode ?></span></a>
-    <a href="<?= $panel->getUrl() ?>" title="Action: <?= $panel->data['action'] ?>">Route <span class="label"><?= $panel->data['route'] ?></span></a>
+    <a href="<?= $panel->getUrl() ?>" title="Status code: <?= $statusCode ?> <?= $statusText ?>"><span class="label <?= $class ?>"><?= $statusCode ?></span></a>
+    <a href="<?= $panel->getUrl() ?>" title="Action: <?= $panel->data['action'] ?>"><span class="label"><?= $panel->data['route'] ?></span></a>
 </div>

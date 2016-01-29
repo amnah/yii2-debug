@@ -2,9 +2,10 @@
 /* @var $panel yii\debug\panels\ConfigPanel */
 ?>
 <div class="yii-debug-toolbar-block">
-    <a href="<?= $panel->getUrl() ?>">
+    <a href="<?= $panel->getUrl() ?>" title="Yii Version">
         <span class="label"><?= $panel->data['application']['yii'] ?></span>
-        PHP
-        <span class="label"><?= $panel->data['php']['version'] ?></span>
+    </a>
+    <a href="<?= $panel->getUrl() ?>" title="PHP: <?= $panel->data['php']['version'] ?>">
+        <span class="label"><?= substr($panel->data['php']['version'], 0, 15) ?></span>
     </a>
 </div>

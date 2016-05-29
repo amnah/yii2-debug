@@ -158,9 +158,12 @@
             var target = e.target,
                 block = findAncestor(target, blockClass);
 
-            if (block
-                && e.which !== 2 && !e.ctrlKey // not mouse wheel and not ctrl+click
-            ) {
+            var activeBlock = block && block.className.indexOf('yii-debug-toolbar__block_active') >= 0;
+            var differentBlock = block && e.which !== 2 && !e.ctrlKey; // not mouse wheel and not ctrl+click
+            if (activeBlock) {
+                togglePosition();
+                e.preventDefault();
+            } else if (differentBlock) {
                 while (target !== this) {
                     if (target.href) {
                         removeActiveBlocksCls();

@@ -35,15 +35,15 @@ class Module extends \yii\debug\Module
         if (!$this->checkAccess() || Yii::$app->getRequest()->getIsAjax()) {
             return;
         }
-        $url = Url::toRoute(['/' . $this->id . '/default/toolbar',
-            'tag' => $this->logTarget->tag,
-        ]);
-        echo '<div id="yii-debug-toolbar" data-url="' . Html::encode($url) . '" style="display:none" class="yii-debug-toolbar-bottom"></div>';
+
+        $baseUrl = Url::toRoute(['/' . $this->id . '/default/toolbar']);
+        $tag = $this->logTarget->tag;
+        echo '<div id="yii-debug-toolbar" data-url="' . Html::encode($baseUrl) . '" style="display:none" class="yii-debug-toolbar-bottom"></div>';
         /* @var $view View */
         $view = $event->sender;
 
         // echo is used in order to support cases where asset manager is not available
         echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.css') . '</style>';
-        echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js') . '</script>';
+        echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js', compact('baseUrl', 'tag')) . '</script>';
     }
 }

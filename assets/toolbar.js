@@ -37,24 +37,46 @@
         iframeActiveClass = 'yii-debug-toolbar_iframe_active',
         titleClass = 'yii-debug-toolbar__title',
         blockClass = 'yii-debug-toolbar__block',
-        blockActiveClass = 'yii-debug-toolbar__block_active';
+        blockActiveClass = 'yii-debug-toolbar__block_active',
+
+        tagSelectorClass = '.tag-selector',
+        setupTagSelector = function(toolbarEl) {
+            var tagSelectorEl = document.querySelector(tagSelectorClass);
+            tagSelectorEl.onchange = function() {
+                if (this.value) {
+                    loadToolbar(this.value);
+                }
+            };
+        },
+
+        baseUrl = '<?= $baseUrl ?>',
+        currentTag = '<?= $tag ?>',
+        loadToolbar = function(tag) {
+            url = baseUrl + '?currentTag=' + currentTag;
+            if (tag) {
+                url = url + '&tag=' + tag;
+            }
+
+            var theToolbar = findToolbar();
+            ajax(url, {
+                success: function (xhr) {
+                    div = document.createElement('div');
+                    div.innerHTML = xhr.responseText;
+
+                    theToolbar.parentNode.replaceChild(div, theToolbar);
+
+                    var toolbar = findToolbar();
+                    showToolbar(toolbar);
+                    setupTagSelector(toolbar);
+                },
+                error: function (xhr) {
+                    theToolbar.innerHTML = xhr.responseText;
+                }
+            });
+        };
 
     if (toolbarEl) {
-        url = toolbarEl.getAttribute('data-url');
-
-        ajax(url, {
-            success: function (xhr) {
-                div = document.createElement('div');
-                div.innerHTML = xhr.responseText;
-
-                toolbarEl.parentNode.replaceChild(div, toolbarEl);
-
-                showToolbar(findToolbar());
-            },
-            error: function (xhr) {
-                toolbarEl.innerHTML = xhr.responseText;
-            }
-        });
+        loadToolbar();
     }
 
     function showToolbar(toolbarEl) {

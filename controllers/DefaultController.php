@@ -7,7 +7,7 @@ use yii\helpers\Url;
 
 class DefaultController extends \yii\debug\controllers\DefaultController
 {
-    public function actionToolbar($tag, $currentTag = null)
+    public function actionToolbar($tag = null, $currentTag = null)
     {
         // get manifest and calculate tag if needed
         $manifest = $this->getManifest(true);

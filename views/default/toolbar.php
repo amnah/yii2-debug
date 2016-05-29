@@ -3,7 +3,9 @@
 /* @var $panels \yii\debug\Panel[] */
 /* @var $tag string */
 /* @var $position string */
+/* @var $urls array */
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 $firstPanel = reset($panels);
@@ -16,6 +18,10 @@ $url = $firstPanel->getUrl();
             <a href="<?= Url::to(['index']) ?>">
                 <img width="29" height="30" alt="" src="<?= \yii\debug\Module::getYiiLogo() ?>">
             </a>
+        </div>
+
+        <div class="yii-debug-toolbar__block manifest-list">
+            <?= Html::dropDownList("tag", $tag, $urls, ["class" => "tag-selector"]) ?>
         </div>
 
         <?php foreach ($panels as $panel): ?>

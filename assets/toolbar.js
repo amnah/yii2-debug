@@ -136,7 +136,7 @@
             var target = e.target,
                 block = findAncestor(target, blockClass);
 
-            if (block && !block.classList.contains(titleClass)
+            if (block
                 && e.which !== 2 && !e.ctrlKey // not mouse wheel and not ctrl+click
             ) {
                 while (target !== this) {

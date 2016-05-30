@@ -67,13 +67,21 @@
                         return;
                     }
 
-                    // create <div> for the first load. afterwards, we can simply set the innerhtml
+                    // add active class if needed
+                    var html = xhr.responseText;
+                    if (restoreStorageState(CACHE_KEY) == ACTIVE_STATE) {
+                        var pos = xhr.responseText.indexOf('class="');
+                        var insertClass = 'class="' + activeClass + ' ';
+                        html = html.substr(0, pos) + insertClass + html.substr(pos+7);
+                    }
+
+                    // create <div> for the first load. afterwards, we can set the innerHTML directly
                     if (firstLoad) {
                         div = document.createElement('div');
-                        div.innerHTML = xhr.responseText;
+                        div.innerHTML = html;
                         theToolbar.parentNode.replaceChild(div, theToolbar);
                     } else {
-                        theToolbar.parentNode.innerHTML = xhr.responseText;
+                        theToolbar.parentNode.innerHTML = html;
                     }
 
                     var toolbar = findToolbar();
@@ -86,6 +94,23 @@
                     theToolbar.innerHTML = xhr.responseText;
                 }
             });
+        },
+
+        toggleStorageState = function (key, value) {
+            if (window.localStorage) {
+                var item = localStorage.getItem(key);
+
+                if (item) {
+                    localStorage.removeItem(key);
+                } else {
+                    localStorage.setItem(key, value);
+                }
+            }
+        },
+        restoreStorageState = function (key) {
+            if (window.localStorage) {
+                return localStorage.getItem(key);
+            }
         };
 
     // add callback for ajax requests
@@ -144,22 +169,6 @@
                     toolbarEl.classList.add(className);
                 }
             },
-            toggleStorageState = function (key, value) {
-                if (window.localStorage) {
-                    var item = localStorage.getItem(key);
-
-                    if (item) {
-                        localStorage.removeItem(key);
-                    } else {
-                        localStorage.setItem(key, value);
-                    }
-                }
-            },
-            restoreStorageState = function (key) {
-                if (window.localStorage) {
-                    return localStorage.getItem(key);
-                }
-            },
             togglePosition = function () {
                 if (isIframeActive()) {
                     hideIframe();
@@ -170,10 +179,6 @@
             };
 
         toolbarEl.style.display = 'block';
-
-        if (restoreStorageState(CACHE_KEY) == ACTIVE_STATE) {
-            toolbarEl.classList.add(activeClass);
-        }
 
         window.onresize = function () {
             if (toolbarEl.classList.contains(iframeActiveClass)) {

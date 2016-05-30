@@ -51,6 +51,7 @@
 
         baseUrl = '<?= $baseUrl ?>',
         currentTag = '<?= $tag ?>',
+        firstLoad = true,
         loadToolbar = function(tag) {
             url = baseUrl + '?currentTag=' + currentTag;
             if (tag) {
@@ -60,18 +61,26 @@
             var theToolbar = findToolbar();
             ajax(url, {
                 success: function (xhr) {
-                    div = document.createElement('div');
-                    div.innerHTML = xhr.responseText;
 
                     // check if parentNode is set
-                    if (theToolbar.parentNode) {
-                        console.log(theToolbar.parentNode);
+                    if (!theToolbar.parentNode) {
+                        return;
+                    }
+
+                    // create <div> for the first load. afterwards, we can simply set the innerhtml
+                    if (firstLoad) {
+                        div = document.createElement('div');
+                        div.innerHTML = xhr.responseText;
                         theToolbar.parentNode.replaceChild(div, theToolbar);
+                    } else {
+                        theToolbar.parentNode.innerHTML = xhr.responseText;
                     }
 
                     var toolbar = findToolbar();
                     showToolbar(toolbar);
                     setupTagSelector(toolbar);
+
+                    firstLoad = false;
                 },
                 error: function (xhr) {
                     theToolbar.innerHTML = xhr.responseText;

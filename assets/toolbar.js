@@ -63,7 +63,11 @@
                     div = document.createElement('div');
                     div.innerHTML = xhr.responseText;
 
-                    theToolbar.parentNode.replaceChild(div, theToolbar);
+                    // check if parentNode is set
+                    if (theToolbar.parentNode) {
+                        console.log(theToolbar.parentNode);
+                        theToolbar.parentNode.replaceChild(div, theToolbar);
+                    }
 
                     var toolbar = findToolbar();
                     showToolbar(toolbar);
@@ -74,6 +78,20 @@
                 }
             });
         };
+
+    // add callback for ajax requests
+    // @link http://stackoverflow.com/questions/18259301/how-to-run-a-function-when-any-xmlhttprequest-is-complete
+    var oldOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function() {
+        this.addEventListener("readystatechange", function() {
+            // process DONE only
+            // check for non-debug url and refresh debugbar
+            if (this.readyState === 4 && this.responseURL.indexOf(baseUrl) < 0) {
+                loadToolbar();
+            }
+        });
+        oldOpen.apply(this, arguments);
+    };
 
     if (toolbarEl) {
         loadToolbar();

@@ -187,6 +187,14 @@
         };
 
         barEl.onclick = function (e) {
+
+            // check if the toolbar is collapsed. in that case, the only thing to click is
+            // the yii logo, which will open up debug in a new tab
+            var toolbarActive = findToolbar().classList.contains(activeClass);
+            if (!toolbarActive) {
+                return;
+            }
+
             var target = e.target,
                 block = findAncestor(target, blockClass);
 

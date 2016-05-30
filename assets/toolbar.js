@@ -43,7 +43,7 @@
         setupTagSelector = function(toolbarEl) {
             var tagSelectorEl = document.querySelector(tagSelectorClass);
             tagSelectorEl.onchange = function() {
-                if (this.value) {
+                if (this.value != "0") {
                     loadToolbar(this.value);
                 }
             };

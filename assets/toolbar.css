@@ -10,7 +10,7 @@
     text-align: left;
     width: 96px;
     height: 42px;
-    transition: width .3s ease;
+    transition: width .2s ease;
     z-index: 1000000;
 }
 
@@ -61,7 +61,7 @@
     height: 0;
     overflow: hidden;
     background: white;
-    transition: height .3s ease;
+    transition: height .2s ease;
 }
 
 .yii-debug-toolbar__view iframe {
@@ -198,7 +198,7 @@ a.yii-debug-toolbar__label:focus {
     opacity: 0.5;
     filter: alpha(opacity=50);
 
-    transition: opacity .3s ease;
+    transition: opacity .2s ease;
 }
 
 .yii-debug-toolbar__toggle:hover,
@@ -229,8 +229,8 @@ a.yii-debug-toolbar__label:focus {
     width: 10px;
     height: 16px;
     background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDUwIDUwIj48cGF0aCBmaWxsPSIjNDQ0IiBkPSJNMTUuNTYzIDQwLjgzNmEuOTk3Ljk5NyAwIDAgMCAxLjQxNCAwbDE1LTE1YTEgMSAwIDAgMCAwLTEuNDE0bC0xNS0xNWExIDEgMCAwIDAtMS40MTQgMS40MTRMMjkuODU2IDI1LjEzIDE1LjU2MyAzOS40MmExIDEgMCAwIDAgMCAxLjQxNHoiLz48L3N2Zz4=');
-    transition: -webkit-transform .3s ease-out;
-    transition: transform .3s ease-out;
+    transition: -webkit-transform .2s ease-out;
+    transition: transform .2s ease-out;
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
 }

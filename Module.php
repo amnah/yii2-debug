@@ -36,14 +36,14 @@ class Module extends \yii\debug\Module
             return;
         }
 
-        $baseUrl = Url::toRoute(['/' . $this->id . '/default/toolbar']);
+        $baseDebugUrl = Url::toRoute(['/' . $this->id . '/default/toolbar']);
         $tag = $this->logTarget->tag;
-        echo '<div id="yii-debug-toolbar" data-url="' . Html::encode($baseUrl) . '" style="display:none" class="yii-debug-toolbar-bottom"></div>';
+        echo '<div id="yii-debug-toolbar" data-url="' . Html::encode($baseDebugUrl) . '" style="display:none" class="yii-debug-toolbar-bottom"></div>';
         /* @var $view View */
         $view = $event->sender;
 
         // echo is used in order to support cases where asset manager is not available
         echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.css') . '</style>';
-        echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js', compact('baseUrl', 'tag')) . '</script>';
+        echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js', compact('baseDebugUrl', 'tag')) . '</script>';
     }
 }

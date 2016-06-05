@@ -49,11 +49,11 @@
             };
         },
 
-        baseUrl = '<?= $baseUrl ?>',
+        baseDebugUrl = '<?= $baseDebugUrl ?>',
         currentTag = '<?= $tag ?>',
         firstLoad = true,
         loadToolbar = function(tag) {
-            url = baseUrl + '?currentTag=' + currentTag;
+            url = baseDebugUrl + '?currentTag=' + currentTag;
             if (tag) {
                 url = url + '&tag=' + tag;
             }
@@ -119,8 +119,11 @@
     XMLHttpRequest.prototype.open = function() {
         this.addEventListener("readystatechange", function() {
             // process DONE only
-            // check for non-debug url and refresh debugbar
-            if (this.readyState === 4 && this.responseURL.indexOf(baseUrl) < 0) {
+            // refresh debugbar if 1) NOT debug ajax call and 2) NOT html template file
+            var url = this.responseURL;
+            var isAjaxDebug = url.indexOf(baseDebugUrl) >= 0;
+            var isAjaxHtml = url.substr(url.lastIndexOf('.') + 1) === 'html';
+            if (this.readyState === 4 && !isAjaxDebug && !isAjaxHtml) {
                 loadToolbar();
             }
         });

@@ -22,7 +22,6 @@
             xhr.send(settings.data || '');
             return xhr;
         },
-        div,
         toolbarEl = findToolbar(),
         barSelector = '.yii-debug-toolbar__bar',
         viewSelector = '.yii-debug-toolbar__view',
@@ -31,7 +30,6 @@
         externalSelector = '.yii-debug-toolbar__external',
 
         CACHE_KEY = 'yii-debug-toolbar',
-        ACTIVE_STATE = 'active',
 
         activeClass = 'yii-debug-toolbar_active',
         iframeActiveClass = 'yii-debug-toolbar_iframe_active',
@@ -76,9 +74,10 @@
                         return;
                     }
 
-                    // add active class if needed
+                    // add active class if first time or previously active
                     var html = xhr.responseText;
-                    if (restoreStorageState(CACHE_KEY) == ACTIVE_STATE) {
+                    var storageState = restoreStorageState(CACHE_KEY);
+                    if (storageState === null || storageState == 1) {
                         var pos = xhr.responseText.indexOf('class="');
                         var insertClass = 'class="' + activeClass + ' ';
                         html = html.substr(0, pos) + insertClass + html.substr(pos+7);
@@ -86,7 +85,7 @@
 
                     // create <div> for the first load. afterwards, we can set the innerHTML directly
                     if (firstLoad) {
-                        div = document.createElement('div');
+                        var div = document.createElement('div');
                         div.innerHTML = html;
                         theToolbar.parentNode.replaceChild(div, theToolbar);
                     } else {
@@ -100,7 +99,7 @@
 
                     // clean up
                     currentXhr = null;
-                    firstLoad = false;
+                    firstLoad = null;
                 },
                 error: function (xhr) {
                     theToolbar.innerHTML = xhr.responseText;
@@ -108,14 +107,14 @@
             });
         },
 
-        toggleStorageState = function (key, value) {
+        toggleStorageState = function (key) {
             if (window.localStorage) {
                 var item = localStorage.getItem(key);
 
-                if (item) {
-                    localStorage.removeItem(key);
+                if (item == 1) {
+                    localStorage.setItem(key, 0);
                 } else {
-                    localStorage.setItem(key, value);
+                    localStorage.setItem(key, 1);
                 }
             }
         },
@@ -189,7 +188,7 @@
                     hideIframe();
                 } else {
                     toggleToolbarClass(activeClass);
-                    toggleStorageState(CACHE_KEY, ACTIVE_STATE);
+                    toggleStorageState(CACHE_KEY);
                 }
             };
 

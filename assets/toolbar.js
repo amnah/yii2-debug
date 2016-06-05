@@ -37,6 +37,7 @@
         blockClass = 'yii-debug-toolbar__block',
         blockActiveClass = 'yii-debug-toolbar__block_active',
 
+        // set up tag selector dropdown
         tagSelectorClass = '.tag-selector',
         setupTagSelector = function(toolbarEl) {
             var tagSelectorEl = document.querySelector(tagSelectorClass);
@@ -47,6 +48,7 @@
             };
         },
 
+        // set up function to load toolbar data
         baseDebugUrl = '<?= $baseDebugUrl ?>',
         currentTag = '<?= $tag ?>',
         firstLoad = true,
@@ -61,7 +63,7 @@
 
             // cancel prev xhr request
             if (currentXhr) {
-                currentXhr.abort();
+                //currentXhr.abort();
             }
 
             // find the toolbar and make new ajax request

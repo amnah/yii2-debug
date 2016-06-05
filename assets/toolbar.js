@@ -134,7 +134,7 @@
             var url = this.responseURL;
             var isAjaxDebug = url.indexOf(baseDebugUrl) >= 0;
             var isAjaxHtml = url.substr(url.lastIndexOf('.') + 1) === 'html';
-            if (this.readyState === 4 && !isAjaxDebug && !isAjaxHtml) {
+            if (url && this.readyState === 4 && !isAjaxDebug && !isAjaxHtml) {
                 loadToolbar();
             }
         });

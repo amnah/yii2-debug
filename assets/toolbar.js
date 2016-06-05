@@ -20,8 +20,8 @@
                 }
             };
             xhr.send(settings.data || '');
+            return xhr;
         },
-        url,
         div,
         toolbarEl = findToolbar(),
         barSelector = '.yii-debug-toolbar__bar',
@@ -52,14 +52,23 @@
         baseDebugUrl = '<?= $baseDebugUrl ?>',
         currentTag = '<?= $tag ?>',
         firstLoad = true,
+        currentXhr = null,
         loadToolbar = function(tag) {
-            url = baseDebugUrl + '?currentTag=' + currentTag;
+
+            // compute url
+            var url = baseDebugUrl + '?currentTag=' + currentTag;
             if (tag) {
                 url = url + '&tag=' + tag;
             }
 
+            // cancel prev xhr request
+            if (currentXhr) {
+                currentXhr.abort();
+            }
+
+            // find the toolbar and make new ajax request
             var theToolbar = findToolbar();
-            ajax(url, {
+            currentXhr = ajax(url, {
                 success: function (xhr) {
 
                     // check if parentNode is set
@@ -84,10 +93,13 @@
                         theToolbar.parentNode.innerHTML = html;
                     }
 
+                    // get toolbar again here (needed for firstLoad because theToolbar won't be set)
                     var toolbar = findToolbar();
                     showToolbar(toolbar);
                     setupTagSelector(toolbar);
 
+                    // clean up
+                    currentXhr = null;
                     firstLoad = false;
                 },
                 error: function (xhr) {

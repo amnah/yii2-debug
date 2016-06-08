@@ -13,6 +13,14 @@ use yii\helpers\Url;
 $this->title = 'Yii Debugger';
 
 ?>
+
+<style>
+.link-hover:hover {
+    text-decoration: none;
+    color: #4fb8ff;
+}
+</style>
+
 <div class="default-index">
     <div id="yii-debug-toolbar" class="yii-debug-toolbar yii-debug-toolbar_position_top" style="display: none;">
         <div class="yii-debug-toolbar__bar">
@@ -61,27 +69,26 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
             [
                 'attribute' => 'tag',
                 'value' => function ($data) {
-                    return Html::a($data['tag'], ['view', 'tag' => $data['tag']]);
+                    return Html::a($data['tag'], ['view', 'tag' => $data['tag']], ['class' => 'link-hover']);
                 },
                 'format' => 'raw',
             ],
             [
                 'attribute' => 'time',
                 'value' => function ($data) {
-                    $html = '<span class="nowrap ">' . Yii::$app->formatter->asDatetime($data['time'], 'yyyy-MM-dd HH:mm:ss') . '</span><br/>';
-
+                    $href = Url::to(['view', 'tag' => $data['tag'], 'panel' => 'profiling']);
+                    $html = '<a class="nowrap link-hover" href="' . $href . '">';
+                    $html .= '<span class="nowrap ">' . Yii::$app->formatter->asDatetime($data['time'], 'yyyy-MM-dd HH:mm:ss') . '</span><br/>';
                     if (!empty($data['profilingTime'])) {
                         $time = number_format($data['profilingTime'] * 1000) . ' ms';
                         $memory = sprintf('%.3f MB', $data['profilingMemory'] / 1048576);
                         $numFiles = !empty($data['profilingNumFiles']) ? $data['profilingNumFiles'] . ' files' : '';
-
-                        $html .= '<div class="nowrap">';
                         $html .= '<span class="yii-debug-toolbar__label yii-debug-toolbar__label_info">' . $time . '</span> ';
                         $html .= '<span class="yii-debug-toolbar__label yii-debug-toolbar__label_info">' . $memory . '</span> ';
                         $html .= '<span class="yii-debug-toolbar__label yii-debug-toolbar__label_info">' . $numFiles . '</span> ';
                         $html .= '</div>';
                     }
-
+                    $html .= '</a>';
                     return $html;
                 },
                 'format' => 'raw',

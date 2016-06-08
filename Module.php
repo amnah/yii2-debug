@@ -15,6 +15,13 @@ class Module extends \yii\debug\Module
     public $controllerNamespace = 'amnah\yii2\debug\controllers';
 
     /**
+     * @inheritdoc
+     */
+    public $panels = [
+        'profiling' => ['class' => 'amnah\yii2\debug\panels\ProfilingPanel'],
+    ];
+    
+    /**
      * @var bool Whether or not to limit the dropdown to current request only (plus ajax)
      *           If false, it will show ALL requests stored (which is ~ 50-60)
      */

@@ -2,15 +2,20 @@
 /* @var $panel yii\debug\panels\ProfilingPanel */
 /* @var $searchModel yii\debug\models\search\Profile */
 /* @var $dataProvider yii\data\ArrayDataProvider */
-/* @var $time integer */
-/* @var $memory integer */
+/* @var $time string */
+/* @var $memory string */
+/* @var $numFiles string */
 
 use yii\grid\GridView;
 use yii\helpers\Html;
 
 ?>
 <h1>Performance Profiling</h1>
-<p>Total processing time: <b><?= $time ?></b>; Peak memory: <b><?= $memory ?></b>.</p>
+<p>
+    Total processing time: <b><?= $time ?></b>;
+    Peak memory: <b><?= $memory ?></b>;
+    Number of included files: <b><?= $numFiles ?></b>
+</p>
 <?php
 echo GridView::widget([
     'dataProvider' => $dataProvider,

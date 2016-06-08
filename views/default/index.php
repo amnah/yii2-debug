@@ -8,6 +8,7 @@
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = 'Yii Debugger';
 
@@ -67,7 +68,21 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
             [
                 'attribute' => 'time',
                 'value' => function ($data) {
-                    return '<span class="nowrap">' . Yii::$app->formatter->asDatetime($data['time'], 'yyyy-MM-dd HH:mm:ss') . '</span>';
+                    $html = '<span class="nowrap ">' . Yii::$app->formatter->asDatetime($data['time'], 'yyyy-MM-dd HH:mm:ss') . '</span><br/>';
+
+                    if (!empty($data['profilingTime'])) {
+                        $time = number_format($data['profilingTime'] * 1000) . ' ms';
+                        $memory = sprintf('%.3f MB', $data['profilingMemory'] / 1048576);
+                        $numFiles = !empty($data['profilingNumFiles']) ? $data['profilingNumFiles'] . ' files' : '';
+
+                        $html .= '<div class="nowrap">';
+                        $html .= '<span class="yii-debug-toolbar__label yii-debug-toolbar__label_info">' . $time . '</span> ';
+                        $html .= '<span class="yii-debug-toolbar__label yii-debug-toolbar__label_info">' . $memory . '</span> ';
+                        $html .= '<span class="yii-debug-toolbar__label yii-debug-toolbar__label_info">' . $numFiles . '</span> ';
+                        $html .= '</div>';
+                    }
+
+                    return $html;
                 },
                 'format' => 'html',
             ],
@@ -110,6 +125,10 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
             [
                 'attribute' => 'url',
                 'label' => 'URL',
+                'value' => function($data) {
+                    $homeUrl = rtrim(Url::to(["/"], true), "/");
+                    return str_replace($homeUrl, "", $data["url"]);
+                }
             ],
             [
                 'attribute' => 'statusCode',

@@ -63,7 +63,7 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
                 'value' => function ($data) {
                     return Html::a($data['tag'], ['view', 'tag' => $data['tag']]);
                 },
-                'format' => 'html',
+                'format' => 'raw',
             ],
             [
                 'attribute' => 'time',
@@ -84,7 +84,7 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
 
                     return $html;
                 },
-                'format' => 'html',
+                'format' => 'raw',
             ],
             'ip',
             [
@@ -105,7 +105,7 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
                         return $data['sqlCount'];
                     }
                 },
-                'format' => 'html',
+                'format' => 'raw',
             ],
             [
                 'attribute' => 'mailCount',

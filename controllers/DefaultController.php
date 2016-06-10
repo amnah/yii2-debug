@@ -4,9 +4,42 @@ namespace amnah\yii2\debug\controllers;
 
 use Yii;
 use yii\helpers\Url;
+use yii\debug\models\search\Debug;
 
 class DefaultController extends \yii\debug\controllers\DefaultController
 {
+    /**
+     * Index page - show list of debug logs
+     * @param string $tag
+     * @return string
+     */
+    public function actionIndex($tag = "")
+    {
+        $searchModel = new Debug();
+        $dataProvider = $searchModel->search($_GET, $this->getManifest());
+
+        // load latest request
+        if (!$tag) {
+            $tags = array_keys($this->getManifest());
+            $tag = reset($tags);
+        }
+        $this->loadData($tag);
+
+        return $this->render('index', [
+            'panels' => $this->module->panels,
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'manifest' => $this->getManifest(),
+            'tag' => $tag,
+        ]);
+    }
+
+    /**
+     * Toolbar (loaded via ajax)
+     * @param string $tag
+     * @param string $currentTag
+     * @return string
+     */
     public function actionToolbar($tag = null, $currentTag = null)
     {
         // get manifest and calculate tag if needed

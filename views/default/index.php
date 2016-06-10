@@ -4,6 +4,7 @@
 /* @var $searchModel \yii\debug\models\search\Debug */
 /* @var $dataProvider ArrayDataProvider */
 /* @var $panels \yii\debug\Panel[] */
+/* @var $tag string */
 
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -44,7 +45,7 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
     echo "			<h1>Available Debug Data</h1>";
 
     $codes = [];
-    foreach ($manifest as $tag => $vals) {
+    foreach ($manifest as $currentTagNotUsed => $vals) {
         if (!empty($vals['statusCode'])) {
             $codes[] = $vals['statusCode'];
         }
@@ -55,11 +56,14 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'rowOptions' => function ($model, $key, $index, $grid) use ($searchModel) {
+        'rowOptions' => function ($model, $key, $index, $grid) use ($searchModel, $tag) {
+
             $dbPanel = $this->context->module->panels['db'];
 
             if ($searchModel->isCodeCritical($model['statusCode']) || $dbPanel->isQueryCountCritical($model['sqlCount'])) {
                 return ['class'=>'danger'];
+            } elseif ($tag == $model["tag"]) {
+                return ['class'=>'info'];
             } else {
                 return [];
             }
@@ -68,8 +72,12 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'tag',
-                'value' => function ($data) {
-                    return Html::a($data['tag'], ['view', 'tag' => $data['tag']], ['class' => 'link-hover']);
+                'value' => function ($data) use ($tag) {
+                    $html = Html::a($data['tag'], ['view', 'tag' => $data['tag']], ['class' => 'link-hover']);
+                    if ($tag == $data['tag']) {
+                        $html .= '<br/><small>(currently viewing)</small>';
+                    }
+                    return $html;
                 },
                 'format' => 'raw',
             ],

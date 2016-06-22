@@ -63,7 +63,7 @@
 
             // cancel prev xhr request
             if (currentXhr) {
-                //currentXhr.abort();
+                currentXhr.abort();
             }
 
             // find the toolbar and make new ajax request
@@ -104,7 +104,9 @@
                     firstLoad = null;
                 },
                 error: function (xhr) {
-                    theToolbar.innerHTML = xhr.responseText;
+                    if (xhr.responseText) {
+                        theToolbar.innerHTML = xhr.responseText;
+                    }
                 }
             });
         },

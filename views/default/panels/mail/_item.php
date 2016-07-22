@@ -30,7 +30,7 @@ echo DetailView::widget([
         'cc',
         [
             'attribute' => 'file',
-            'format' => 'html',
+            'format' => 'raw',
             'value' => Html::a('Download eml', ['download-mail', 'file' => $model['file']]),
         ],
     ],

@@ -12,6 +12,19 @@ use yii\log\Logger;
 <h1>Log Messages</h1>
 <?php
 
+// calculate duration between log items
+foreach ($dataProvider->allModels as $k => $model) {
+    // check if we're at the last model. if so, set 0 and break
+    if (!isset($dataProvider->allModels[$k+1])) {
+        $dataProvider->allModels[$k]["diff"] = 0;
+        break;
+    }
+
+    // compute diff in milliseconds
+    $diff = $dataProvider->allModels[$k+1]["time"] - $dataProvider->allModels[$k]["time"];
+    $dataProvider->allModels[$k]["diff"] = $diff;
+}
+
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'id' => 'log-panel-detailed-grid',
@@ -31,11 +44,26 @@ echo GridView::widget([
         [
             'attribute' => 'time',
             'value' => function ($data) {
+                // compute time of evaluation
                 $timeInSeconds = $data['time'] / 1000;
                 $millisecondsDiff = (int) (($timeInSeconds - (int) $timeInSeconds) * 1000);
+                $value = date('H:i:s.', $timeInSeconds) . sprintf('%03d', $millisecondsDiff);
 
-                return date('H:i:s.', $timeInSeconds) . sprintf('%03d', $millisecondsDiff);
+                // format diff times
+                $suffix = "ms";
+                $diff = (float)$data["diff"];
+                if ($diff > 1000) {
+                    $suffix = "s";
+                    $diff = $diff / 1000;
+                } elseif ($diff < 1) {
+                    $suffix = "&micro;s";
+                    $diff = $diff * 1000;
+                }
+                $diff = sprintf("%.2f", $diff);
+
+                return "$value <ul class='trace'><li>$diff $suffix</li></ul>";
             },
+            'format' => 'raw',
             'headerOptions' => [
                 'class' => 'sort-numerical'
             ]
@@ -67,7 +95,7 @@ echo GridView::widget([
                 };
                 return $message;
             },
-            'format' => 'html',
+            'format' => 'raw',
             'options' => [
                 'width' => '50%',
             ],

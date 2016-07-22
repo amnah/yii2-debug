@@ -9,12 +9,21 @@ use yii\web\View;
 
 echo Html::tag('h1', $panel->getName() . ' Queries');
 
+// calculate total count and duration
+$totalCount = $dataProvider->getCount();
+$totalDuration = 0.0;
+foreach ($dataProvider->allModels as $model) {
+    $totalDuration += $model["duration"];
+}
+$totalDuration = round($totalDuration, 1);
+
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'id' => 'db-panel-detailed-grid',
     'options' => ['class' => 'detail-grid-view table-responsive'],
     'filterModel' => $searchModel,
     'filterUrl' => $panel->getUrl(),
+    'layout' => "Number of queries: <b>$totalCount</b>; Total duration: <b>$totalDuration</b> ms \n{items}\n{pager}",
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
         [
@@ -75,7 +84,7 @@ echo GridView::widget([
 
                 return $query;
             },
-            'format' => 'html',
+            'format' => 'raw',
             'options' => [
                 'width' => '60%',
             ],

@@ -21,7 +21,7 @@ $url = $firstPanel->getUrl();
         </div>
 
         <div class="yii-debug-toolbar__block manifest-list">
-            <?= Html::dropDownList("tag", $tag, $urls, ["class" => "tag-selector"]) ?>
+            <?= Html::dropDownList("tag", $tag, $urls, ["id" => "yii-debug-toolbar__tag-selector"]) ?>
         </div>
 
         <?php foreach ($panels as $panel): ?>

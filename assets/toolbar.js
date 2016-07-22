@@ -78,6 +78,10 @@
             currentXhr.abort();
         }
 
+        // store old href (for when iframe is open)
+        var externalEl = debugToolbar.querySelector(externalSelector);
+        var oldHref = externalEl ? externalEl.href : '';
+
         // find the toolbar and make new ajax request
         currentXhr = ajax(url, {
             success: function (xhr) {
@@ -95,10 +99,6 @@
                     var insertClass = 'class="' + activeClass + ' ';
                     html = html.substr(0, pos) + insertClass + html.substr(pos+7);
                 }
-
-                // store old href (for when iframe is open)
-                var externalEl = debugToolbar.querySelector(externalSelector);
-                var oldHref = externalEl ? externalEl.href : '';
 
                 // load everything in for the firstLoad, including the iframe stuff
                 // in subsequent loads, we can simply replace the contents in $(barSelector)
@@ -120,13 +120,25 @@
                 // check if iframe is open
                 if (isIframeActive()) {
 
-                    // load new iframe based on old href
+                    // use tag or calculate tag from data
+                    // (this is needed for ajax updates, which don't specify a tag)
+                    if (!tag) {
+                        tag = debugToolbar.innerHTML.match(/\?tag=([A-Za-z0-9]*)"/);
+                        tag = tag ? tag[1] : null;
+                    }
+
+                    // use tag to show the proper iframe page
                     if (tag) {
                         var newHref = oldHref.replace(/&tag=(.*)/, '&tag=' + tag);
                         showIframe(newHref);
                     }
 
                     // set active block
+                    // note: this has a chance of not setting an active block. this would occur
+                    // when the newly loaded toolbar doesn't have the specific block
+                    //   eg, one request has a "mail" block while another request doesn't
+                    //   so this would not set the active block
+                    //   BUT it would still load the iframe page
                     var blockEls = getDebugBlocks();
                     for (var i = 0, len = blockEls.length; i < len; i++) {
                         if (blockEls[i].classList.contains(currentBlockActiveClass)) {

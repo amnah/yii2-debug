@@ -22,6 +22,7 @@
         iframeActiveClass = 'yii-debug-toolbar_iframe_active',
         blockClass = 'yii-debug-toolbar__block',
         blockActiveClass = 'yii-debug-toolbar__block_active',
+        currentBlockActiveClass = null,
 
         // set up data to load toolbar
         baseDebugUrl = '<?= $baseDebugUrl ?>',
@@ -55,14 +56,7 @@
             if (this.value == "0") {
                 return;
             }
-
-            // load new toolbar based on tag if iframe is NOT active
-            if (!isIframeActive()) {
-                return loadToolbar(this.value);
-            }
-
-            // load new iframe page
-
+            loadToolbar(this.value);
         };
     };
     var loadToolbar = function(tag) {
@@ -102,17 +96,44 @@
                     html = html.substr(0, pos) + insertClass + html.substr(pos+7);
                 }
 
-                // create <div> for the first load. afterwards, we can set the innerHTML directly
+                // store old href (for when iframe is open)
+                var externalEl = debugToolbar.querySelector(externalSelector);
+                var oldHref = externalEl ? externalEl.href : '';
+
+                // load everything in for the firstLoad, including the iframe stuff
+                // in subsequent loads, we can simply replace the contents in $(barSelector)
+                var div = document.createElement('div');
+                div.innerHTML = html;
                 if (firstLoad) {
-                    var div = document.createElement('div');
-                    div.innerHTML = html;
+                    // use parent to replace everything
                     debugToolbar.parentNode.replaceChild(div, debugToolbar);
                 } else {
-                    debugToolbar.parentNode.innerHTML = html;
+                    var oldBarContent = debugToolbar.querySelector(barSelector);
+                    var newBarContent = div.querySelector(barSelector);
+                    debugToolbar.replaceChild(newBarContent, oldBarContent);
                 }
 
+                // set up the newly loaded toolbar and set external href
                 showToolbar();
                 setupTagSelector();
+
+                // check if iframe is open
+                if (isIframeActive()) {
+
+                    // load new iframe based on old href
+                    if (tag) {
+                        var newHref = oldHref.replace(/&tag=(.*)/, '&tag=' + tag);
+                        showIframe(newHref);
+                    }
+
+                    // set active block
+                    var blockEls = getDebugBlocks();
+                    for (var i = 0, len = blockEls.length; i < len; i++) {
+                        if (blockEls[i].classList.contains(currentBlockActiveClass)) {
+                            blockEls[i].classList.add(blockActiveClass);
+                        }
+                    }
+                }
 
                 // clean up
                 currentXhr = null;
@@ -167,14 +188,14 @@
         externalEl.href = '#';
         viewEl.style.height = '';
     };
+    var getDebugBlocks = function() {
+        return getDebugToolbar().querySelector(barSelector).querySelectorAll(blockSelector);
+    };
     var removeActiveBlocksCls = function () {
-        var debugToolbar = getDebugToolbar(),
-            barEl = debugToolbar.querySelector(barSelector),
-            blockEls = barEl.querySelectorAll(blockSelector);
-
-        [].forEach.call(blockEls, function (el) {
-            el.classList.remove(blockActiveClass);
-        });
+        var blockEls = getDebugBlocks();
+        for (var i = 0, len = blockEls.length; i < len; i++) {
+            blockEls[i].classList.remove(blockActiveClass);
+        }
     };
     var toggleToolbarClass = function (className) {
         var debugToolbar = getDebugToolbar();
@@ -223,8 +244,8 @@
                 block = findAncestor(target, blockClass);
 
             // check if user is clicking on the currently active block -> toggle the toolbar up/down
-            // or if user is clicking a different block  -> toggle the toolbar up and load iframe page
-            var activeBlock = block && block.className.indexOf('yii-debug-toolbar__block_active') >= 0;
+            // otherwise if user is clicking a different block  -> toggle the toolbar up and load iframe page
+            var activeBlock = block && block.className.indexOf(blockActiveClass) >= 0;
             var differentBlock = block && e.which !== 2 && !e.ctrlKey; // not mouse wheel and not ctrl+click
             if (activeBlock) {
                 togglePosition();
@@ -234,6 +255,7 @@
                     if (target.href) {
                         removeActiveBlocksCls();
                         block.classList.add(blockActiveClass);
+                        currentBlockActiveClass = block.classList[1];
                         showIframe(target.href);
                     }
                     target = target.parentNode;

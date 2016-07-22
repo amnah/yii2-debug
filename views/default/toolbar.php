@@ -20,12 +20,18 @@ $url = $firstPanel->getUrl();
             </a>
         </div>
 
-        <div class="yii-debug-toolbar__block manifest-list">
+        <div class="yii-debug-toolbar__block yii-debug-toolbar__tag-selector">
             <?= Html::dropDownList("tag", $tag, $urls, ["id" => "yii-debug-toolbar__tag-selector"]) ?>
         </div>
 
         <?php foreach ($panels as $panel): ?>
-            <?= $panel->getSummary() ?>
+            <?php
+                /** @var string $summary */
+                // add in panel id into div class
+                $summary = $panel->getSummary();
+                $summary = str_replace('<div class="yii-debug-toolbar__block', '<div class="yii-debug-toolbar__block yii-debug-toolbar__'.$panel->id, $summary);
+                echo $summary;
+            ?>
         <?php endforeach; ?>
 
         <a class="yii-debug-toolbar__external" href="#" target="_blank">

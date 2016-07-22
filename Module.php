@@ -28,7 +28,7 @@ class Module extends \yii\debug\Module
 
     /**
      * @var bool Whether or not to limit the dropdown to current request only (plus ajax)
-     *           If false, it will show ALL requests stored (which is ~ 50-60)
+     *           If false, it will show ALL requests stored (see [[historySize]])
      */
     public $limitToCurrentRequest = true;
 

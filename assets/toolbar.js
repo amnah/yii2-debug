@@ -286,7 +286,8 @@
         this.addEventListener("readystatechange", function() {
             // process DONE only
             // refresh debugbar if 1) NOT debug ajax call and 2) NOT html template file
-            var url = this.responseURL;
+            // note: does not seem to work in IE
+            var url = this.responseURL ? this.responseURL : '';
             var isAjaxDebug = url.indexOf(baseDebugUrl) >= 0;
             var isAjaxHtml = url.substr(url.lastIndexOf('.') + 1) === 'html';
             if (url && this.readyState === 4 && !isAjaxDebug && !isAjaxHtml) {

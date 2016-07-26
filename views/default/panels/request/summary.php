@@ -16,7 +16,7 @@ if ($statusCode >= 200 && $statusCode < 300) {
     $class = 'yii-debug-toolbar__label_important';
 }
 $statusText = Html::encode(isset(Response::$httpStatuses[$statusCode]) ? Response::$httpStatuses[$statusCode] : '');
-$requestTime = date("h:i:sa", $panel->data["SERVER"]["REQUEST_TIME"]);
+$requestTime = date("H:i:s", $panel->data["SERVER"]["REQUEST_TIME"]);
 ?>
 <div class="yii-debug-toolbar__block">
     <a href="<?= $panel->getUrl() ?>" title="Status code: <?= $statusCode ?> <?= $statusText ?>"><span class="yii-debug-toolbar__label <?= $class ?>"><?= $statusCode ?></span></a>

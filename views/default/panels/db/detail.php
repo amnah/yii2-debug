@@ -9,6 +9,9 @@ use yii\web\View;
 
 echo Html::tag('h1', $panel->getName() . ' Queries');
 
+// change sort to sequence
+$dataProvider->sort->defaultOrder = ["seq" => SORT_ASC];
+
 // calculate total count and duration
 $totalCount = $dataProvider->getCount();
 $totalDuration = 0.0;

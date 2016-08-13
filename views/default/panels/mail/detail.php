@@ -17,6 +17,17 @@ $listView->sorter = ['options' => ['class' => 'mail-sorter']];
 
 <h1>Email messages</h1>
 
+<?php
+$mailer = Yii::$app->mailer;
+if ($mailer->useFileTransport) {
+    $info = "File transport";
+} else {
+    $transport = $mailer->transport;
+    $info = $transport->getHost() . " (" . $transport->getUsername() . ")";
+}
+?>
+<h4>Email host: <strong><?= $info ?></strong></h4>
+
 <div class="row">
     <div class="col-lg-2">
         <?= Html::button('Form filtering', ['class' => 'btn btn-default', 'onclick' => '$("#email-form").toggle();']) ?>

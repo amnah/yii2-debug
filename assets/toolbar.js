@@ -15,6 +15,7 @@
         blockSelector = '.yii-debug-toolbar__block',
         toggleSelector = '.yii-debug-toolbar__toggle',
         externalSelector = '.yii-debug-toolbar__external',
+        tagSelectorId = '#yii-debug-toolbar__tag-selector',
 
         cacheKey = 'yii-debug-toolbar',
 
@@ -50,7 +51,7 @@
         return xhr;
     };
     var setupTagSelector = function() {
-        var tagSelectorEl = document.querySelector('#yii-debug-toolbar__tag-selector');
+        var tagSelectorEl = document.querySelector(tagSelectorId);
         tagSelectorEl.onchange = function() {
             // check for value
             if (this.value == "0") {
@@ -117,6 +118,19 @@
                 showToolbar();
                 setupTagSelector();
 
+                // compute the currentTag if it wasn't set explicitly
+                if (!currentTag) {
+                    var tagSelectorEl = document.querySelector(tagSelectorId);
+                    for (var i = 0; i < tagSelectorEl.length; i++) {
+
+                        // find the option with value == 0 and set the currentTag to the one above that
+                        if (tagSelectorEl[i].value == 0) {
+                            currentTag = tagSelectorEl[i-1].value;
+                            break;
+                        }
+                    }
+                }
+
                 // check if iframe is open
                 if (isIframeActive()) {
 
@@ -140,7 +154,7 @@
                     //   so this would not set the active block
                     //   BUT it would still load the iframe page
                     var blockEls = getDebugBlocks();
-                    for (var i = 0, len = blockEls.length; i < len; i++) {
+                    for (var i = 0; i < blockEls.length; i++) {
                         if (blockEls[i].classList.contains(currentBlockActiveClass)) {
                             blockEls[i].classList.add(blockActiveClass);
                         }

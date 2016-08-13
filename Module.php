@@ -36,7 +36,7 @@ class Module extends \yii\debug\Module
      * @var string Current request separator. This will appear in the dropdown to separate
      *             the current and old requests. Used only if [[limitToCurrentRequest]] = false
      */
-    public $currentRequestSeparator= " ----- Current Request Above ----- ";
+    public $currentRequestSeparator = " ----- Current Request Above ----- ";
 
     /**
      * Override renderToolbar() function so we can use our own assets

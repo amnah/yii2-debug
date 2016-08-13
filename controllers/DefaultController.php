@@ -65,8 +65,13 @@ class DefaultController extends \yii\debug\controllers\DefaultController
 
             // add method and ajax to select option label
             $method = "[{$row["method"]}]";
-            $ajax  = $row["ajax"] ? "[ajax]" : "";
+            $ajax = $row["ajax"] ? "[ajax]" : "";
             $urls[$rowTag] = "$method $ajax $route";
+
+            // set current tag if not explicitly set
+            if (!$currentTag && !$row["ajax"]) {
+                $currentTag = $rowTag;
+            }
 
             // check for the start tag
             if ($currentTag && $currentTag == $rowTag) {

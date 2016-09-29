@@ -74,6 +74,13 @@
             url = url + '&tag=' + tag;
         }
 
+        // prevent cache in IE
+        // @link http://stackoverflow.com/questions/24861073/detect-if-any-kind-of-ie-msie/24861185#24861185
+        var isIE = !!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g);
+        if (isIE) {
+            url = url + '&i=' + Math.random().toString().substr(2);
+        }
+
         // cancel prev xhr request
         if (currentXhr) {
             currentXhr.abort();
@@ -294,17 +301,22 @@
     };
 
     // add callback for ajax requests
-    // @link http://stackoverflow.com/questions/18259301/how-to-run-a-function-when-any-xmlhttprequest-is-complete
+    // @link http://stackoverflow.com/questions/18259301/how-to-run-a-function-when-any-xmlhttprequest-is-complete/18259603#18259603
     var oldOpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function() {
         this.addEventListener("readystatechange", function() {
             // process DONE only
+            if (this.readyState != 4) {
+                return;
+            }
+
             // refresh debugbar if 1) NOT debug ajax call and 2) NOT html template file
-            // note: does not seem to work in IE
+            // for IE, we check for json because it doesn't have `this.responseUrl`
             var url = this.responseURL ? this.responseURL : '';
             var isAjaxDebug = url.indexOf(baseDebugUrl) >= 0;
             var isAjaxHtml = url.substr(url.lastIndexOf('.') + 1) === 'html';
-            if (url && this.readyState === 4 && !isAjaxDebug && !isAjaxHtml) {
+            var isJson = this.response.substr(0,1) == '{' && this.response.substr(-1,1) == '}';
+            if ((url && !isAjaxDebug && !isAjaxHtml) || (!url && isJson)) {
                 loadToolbar();
             }
         });

@@ -8,6 +8,7 @@ use yii\debug\models\search\Profile;
 class ProfilingPanel extends \yii\debug\panels\ProfilingPanel
 {
     /**
+     * This adds the 'numFiles' data
      * @inheritdoc
      */
     public function getSummary()
@@ -15,12 +16,13 @@ class ProfilingPanel extends \yii\debug\panels\ProfilingPanel
         return Yii::$app->view->render('panels/profile/summary', [
             'memory' => sprintf('%.3f MB', $this->data['memory'] / 1048576),
             'time' => number_format($this->data['time'] * 1000) . ' ms',
+            'panel' => $this,
             'numFiles' => !empty($this->data["numFiles"]) ? "{$this->data["numFiles"]} files" : "",
-            'panel' => $this
         ]);
     }
 
     /**
+     * This adds the 'numFiles' data
      * @inheritdoc
      */
     public function getDetail()
@@ -39,6 +41,7 @@ class ProfilingPanel extends \yii\debug\panels\ProfilingPanel
     }
 
     /**
+     * This adds the 'numFiles' data
      * @inheritdoc
      */
     public function save()

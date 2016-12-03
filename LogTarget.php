@@ -19,9 +19,9 @@ class LogTarget extends \yii\debug\LogTarget
         foreach ($this->module->panels as $id => $panel) {
             $data = $panel->save();
             if ($id == "profiling") {
-                $summary['profilingTime'] = $data['time'];
-                $summary['profilingMemory'] = $data['memory'];
-                $summary['profilingNumFiles'] = $data['numFiles'];
+                $summary["profilingTime"] = $data["time"];
+                $summary["profilingMemory"] = $data["memory"];
+                $summary["profilingNumFiles"] = $data["numFiles"];
                 break;
             }
         }

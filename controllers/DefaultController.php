@@ -11,9 +11,10 @@ class DefaultController extends \yii\debug\controllers\DefaultController
     /**
      * Index page - show list of debug logs
      * @param string $tag
+     * @param string $currentTag
      * @return string
      */
-    public function actionIndex($tag = "")
+    public function actionIndex($tag = null, $currentTag = null)
     {
         $searchModel = new Debug();
         $dataProvider = $searchModel->search($_GET, $this->getManifest());
@@ -25,12 +26,18 @@ class DefaultController extends \yii\debug\controllers\DefaultController
         }
         $this->loadData($tag);
 
+        // remove current tag if it's the same as the tag to view
+        if ($currentTag && $currentTag == $tag) {
+            $currentTag = null;
+        }
+
         return $this->render('index', [
             'panels' => $this->module->panels,
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
             'manifest' => $this->getManifest(),
             'tag' => $tag,
+            'currentTag' => $currentTag,
         ]);
     }
 
@@ -101,6 +108,7 @@ class DefaultController extends \yii\debug\controllers\DefaultController
         return $this->renderPartial('toolbar', [
             'urls' => $urls,
             'tag' => $tag,
+            'currentTag' => $currentTag,
             'panels' => $this->module->panels,
             'position' => 'bottom',
         ]);

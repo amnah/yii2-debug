@@ -5,6 +5,7 @@
 /* @var $dataProvider ArrayDataProvider */
 /* @var $panels \yii\debug\Panel[] */
 /* @var $tag string */
+/* @var $currentTag string */
 
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
@@ -56,13 +57,15 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'rowOptions' => function ($model, $key, $index, $grid) use ($searchModel, $tag) {
+        'rowOptions' => function ($model, $key, $index, $grid) use ($searchModel, $tag, $currentTag) {
 
             $dbPanel = $this->context->module->panels['db'];
 
             if ($searchModel->isCodeCritical($model['statusCode']) || $dbPanel->isQueryCountCritical($model['sqlCount'])) {
                 return ['class'=>'danger'];
             } elseif ($tag == $model["tag"]) {
+                return ['class'=>'success'];
+            } elseif ($currentTag == $model["tag"]) {
                 return ['class'=>'info'];
             } else {
                 return [];
@@ -72,10 +75,12 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'tag',
-                'value' => function ($data) use ($tag) {
+                'value' => function ($data) use ($tag, $currentTag) {
                     $html = Html::a($data['tag'], ['view', 'tag' => $data['tag']], ['class' => 'link-hover']);
                     if ($tag == $data['tag']) {
-                        $html .= '<br/><small>(currently viewing)</small>';
+                        $html .= '<br/><small>(active request)</small>';
+                    } elseif ($currentTag == $data['tag']) {
+                        $html .= '<br/><small>(current request)</small>';
                     }
                     return $html;
                 },

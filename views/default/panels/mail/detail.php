@@ -40,7 +40,7 @@ if ($mailer->useFileTransport) {
 <div id="email-form" style="display: none;">
     <?php $form = ActiveForm::begin([
             'method' => 'get',
-            'action' => ['/debug/default/view', 'tag' => Yii::$app->request->get('tag'), 'panel' => 'mail'],
+            'action' => ['default/view', 'tag' => Yii::$app->request->get('tag'), 'panel' => 'mail'],
     ]); ?>
     <div class="row">
         <?= $form->field($searchModel, 'from', ['options' => ['class' => 'col-lg-6']])->textInput() ?>

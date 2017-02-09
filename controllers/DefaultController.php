@@ -67,8 +67,11 @@ class DefaultController extends \yii\debug\controllers\DefaultController
             $i++;
 
             // replace $homeUrl with empty and truncate
+            $numCharsToTrim = 50;
             $route = str_replace($homeUrl, "", $row["url"]);
-            $route = mb_strimwidth($route, 0, 50, " ...");
+            if (strlen($route) > $numCharsToTrim) {
+                $route = substr($route, 0, $numCharsToTrim) . " ...";
+            }
 
             // add method and ajax to select option label
             $method = "[{$row["method"]}]";

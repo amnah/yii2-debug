@@ -83,14 +83,9 @@ class DefaultController extends \yii\debug\controllers\DefaultController
                 $currentTag = $rowTag;
             }
 
-            // check for the start tag
+            // check for the current request tag
             if ($currentTag && $currentTag == $rowTag) {
                 $count = $i;
-
-                // end here
-                if ($this->module->limitToCurrentRequest) {
-                    break;
-                }
                 $urls[0] = $this->module->currentRequestSeparator;
             }
         }

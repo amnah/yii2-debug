@@ -26,15 +26,10 @@ class Module extends \yii\debug\Module
      */
     public $historySize = 100;
 
-    /**
-     * @var bool Whether or not to limit the dropdown to current request only (plus ajax)
-     *           If false, it will show ALL requests stored (see [[historySize]])
-     */
-    public $limitToCurrentRequest = true;
 
     /**
      * @var string Current request separator. This will appear in the dropdown to separate
-     *             the current and old requests. Used only if [[limitToCurrentRequest]] = false
+     *             the current and old requests
      */
     public $currentRequestSeparator = " ----- Current Request Above ----- ";
 

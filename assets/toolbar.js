@@ -5,7 +5,7 @@
     var getDebugToolbar = function () {
         return document.querySelector('#yii-debug-toolbar');
     };
-    if (!getDebugToolbar()) {
+    if (!window.yii2debugBaseDebugUrl || !getDebugToolbar()) {
         return;
     }
 
@@ -26,8 +26,8 @@
         currentBlockActiveClass = null,
 
         // set up data to load toolbar
-        baseDebugUrl = '<?= $baseDebugUrl ?>',
-        currentTag = '<?= $tag ?>',
+        baseDebugUrl = window.yii2debugBaseDebugUrl,
+        currentTag = window.yii2debugCurrentTag  || '',
         firstLoad = true,
         currentXhr = null;
 

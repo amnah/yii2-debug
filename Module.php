@@ -26,12 +26,17 @@ class Module extends \yii\debug\Module
      */
     public $historySize = 100;
 
-
     /**
      * @var string Current request separator. This will appear in the dropdown to separate
      *             the current and old requests
      */
     public $currentRequestSeparator = " ----- Current Request Above ----- ";
+
+    /**
+     * @var bool Include assets (toolbar.css and toolbar.js) into html. If you prefer,
+     *           you can copy those files into the web folder and include them directly
+     */
+    public $includeAssets = true;
 
     /**
      * Override renderToolbar() function so we can use our own assets
@@ -44,14 +49,17 @@ class Module extends \yii\debug\Module
         }
 
         $baseDebugUrl = Url::toRoute(['/' . $this->id . '/default/toolbar']);
-        $tag = $this->logTarget->tag;
-        echo '<div id="yii-debug-toolbar" data-url="' . Html::encode($baseDebugUrl) . '" style="display:none" class="yii-debug-toolbar-bottom"></div>';
-        /* @var $view View */
-        $view = $event->sender;
+        $baseDebugUrl = Html::encode($baseDebugUrl);
+        $currentTag = $this->logTarget->tag;
+        echo "<div id='yii-debug-toolbar' data-url='$baseDebugUrl' style='display:none' class='yii-debug-toolbar-bottom'></div>";
+        echo "<script type='text/javascript'>window.yii2debugBaseDebugUrl = '$baseDebugUrl';window.yii2debugCurrentTag = '$currentTag';</script>";
 
-        // echo is used in order to support cases where asset manager is not available
-        echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.css') . '</style>';
-        echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js', compact('baseDebugUrl', 'tag')) . '</script>';
+        if ($this->includeAssets) {
+            /* @var $view View */
+            $view = $event->sender;
+            echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.css') . '</style>';
+            echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js') . '</script>';
+        }
     }
 
     /**

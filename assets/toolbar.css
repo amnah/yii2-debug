@@ -248,7 +248,7 @@ a.yii-debug-toolbar__label:focus {
 .yii-debug-toolbar__external {
     display: none;
     right: 50px;
-    top: 4px;
+    top: 0px;
 }
 
 .yii-debug-toolbar_iframe_active .yii-debug-toolbar__external {

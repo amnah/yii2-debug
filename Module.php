@@ -42,7 +42,7 @@ class Module extends \yii\debug\Module
      * Override renderToolbar() function so we can use our own assets
      * @inheritdoc
      */
-    public function renderToolbar($event)
+    public function renderToolbar($event = null)
     {
         if (!$this->checkAccess() || Yii::$app->getRequest()->getIsAjax()) {
             return;
@@ -56,7 +56,7 @@ class Module extends \yii\debug\Module
 
         if ($this->includeAssets) {
             /* @var $view View */
-            $view = $event->sender;
+            $view = isset($event->sender) ? $event->sender : new View();
             echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.css') . '</style>';
             echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js') . '</script>';
         }

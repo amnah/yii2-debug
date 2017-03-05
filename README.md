@@ -12,12 +12,12 @@ Install package via composer ```"amnah/yii2-debug": "dev-master"```
 
 ```php
 if (YII_ENV_DEV) {
+    // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'amnah\yii2\debug\Module',
-        'allowedIPs' => ['*'],
-        'limitToCurrentRequest' =>  true, // set this to false if you want it to show all requests in history
-                                          // which by default is 50 items (yii2-debug Module::$historySize)
+        // uncomment the following to add your IP if you are not connecting from localhost.
+        //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 ```

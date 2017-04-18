@@ -70,6 +70,6 @@ class Module extends \yii\debug\Module
         parent::bootstrap($app);
 
         // override the log target with ours
-        $this->logTarget = Yii::$app->getLog()->targets['debug'] = new LogTarget($this);
+        $this->logTarget = $app->getLog()->targets['debug'] = new LogTarget($this);
     }
 }

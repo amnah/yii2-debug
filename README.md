@@ -16,7 +16,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'amnah\yii2\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
+        // uncomment and adjust the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }

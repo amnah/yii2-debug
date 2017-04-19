@@ -17,6 +17,10 @@ use yii\helpers\Html;
     Number of included files: <b><?= $numFiles ?></b>
 </p>
 <?php
+
+// change sort order to sequence instead of duration
+$dataProvider->sort->defaultOrder = ["seq" => SORT_ASC];
+
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'id' => 'profile-panel-detailed-grid',

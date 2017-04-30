@@ -17,13 +17,6 @@ class Module extends \yii\debug\Module
     /**
      * @inheritdoc
      */
-    public $panels = [
-        'profiling' => ['class' => 'amnah\yii2\debug\panels\ProfilingPanel'],
-    ];
-
-    /**
-     * @inheritdoc
-     */
     public $historySize = 100;
 
     /**
@@ -71,5 +64,15 @@ class Module extends \yii\debug\Module
 
         // override the log target with ours
         $this->logTarget = $app->getLog()->targets['debug'] = new LogTarget($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function corePanels()
+    {
+        $panels = parent::corePanels();
+        $panels['profiling'] = ['class' => 'amnah\yii2\debug\panels\ProfilingPanel'];
+        return $panels;
     }
 }

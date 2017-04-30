@@ -59,11 +59,12 @@
 }
 
 .yii-debug-toolbar.yii-debug-toolbar_active:not(.yii-debug-toolbar_animating) .yii-debug-toolbar__bar {
+    /* this prevents multiple rows when the width is too small to fit all of the panel */
     /*overflow: visible;*/
 }
 .yii-debug-toolbar:not(.yii-debug-toolbar_active) .yii-debug-toolbar__bar,
 .yii-debug-toolbar.yii-debug-toolbar_animating .yii-debug-toolbar__bar {
-    height:40px;
+    height:36px;
 }
 
 .yii-debug-toolbar__bar:after {

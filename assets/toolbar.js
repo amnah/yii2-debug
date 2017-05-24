@@ -174,7 +174,7 @@
             },
             error: function (xhr) {
                 if (xhr.responseText) {
-                    debugToolbar.innerHTML = xhr.responseText;
+                    debugToolbar.innerText = xhr.responseText;
                 }
             }
         });

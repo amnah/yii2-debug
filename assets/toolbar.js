@@ -315,7 +315,7 @@
             var url = this.responseURL ? this.responseURL : '';
             var isAjaxDebug = url.indexOf(baseDebugUrl) >= 0;
             var isAjaxHtml = url.substr(url.lastIndexOf('.') + 1) === 'html';
-            var isJson = this.response.substr(0,1) == '{' && this.response.substr(-1,1) == '}';
+            var isJson = this.response.substr && this.response.substr(0,1) == '{' && this.response.substr(-1,1) == '}';
             if ((url && !isAjaxDebug && !isAjaxHtml) || (!url && isJson)) {
                 loadToolbar();
             }

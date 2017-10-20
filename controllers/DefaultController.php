@@ -5,6 +5,7 @@ namespace amnah\yii2\debug\controllers;
 use Yii;
 use yii\helpers\Url;
 use yii\debug\models\search\Debug;
+use yii\web\NotFoundHttpException;
 
 class DefaultController extends \yii\debug\controllers\DefaultController
 {
@@ -13,6 +14,7 @@ class DefaultController extends \yii\debug\controllers\DefaultController
      * @param string $tag
      * @param string $currentTag
      * @return string
+     * @throws NotFoundHttpException
      */
     public function actionIndex($tag = null, $currentTag = null)
     {
@@ -46,6 +48,7 @@ class DefaultController extends \yii\debug\controllers\DefaultController
      * @param string $tag
      * @param string $currentTag
      * @return string
+     * @throws NotFoundHttpException
      */
     public function actionToolbar($tag = null, $currentTag = null)
     {

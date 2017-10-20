@@ -2,9 +2,8 @@
 /* @var $panel yii\debug\panels\ProfilingPanel */
 /* @var $searchModel yii\debug\models\search\Profile */
 /* @var $dataProvider yii\data\ArrayDataProvider */
-/* @var $time string */
-/* @var $memory string */
-/* @var $numFiles string */
+/* @var $time integer */
+/* @var $memory integer */
 
 use yii\grid\GridView;
 use yii\helpers\Html;
@@ -15,6 +14,10 @@ use yii\helpers\Html;
     Total processing time: <b><?= $time ?></b>;
     Peak memory: <b><?= $memory ?></b>;
     Number of included files: <b><?= $numFiles ?></b>
+    <?= Html::a('Show Profiling Timeline', ['/' . $panel->module->id . '/default/view',
+        'panel' => 'timeline',
+        'tag' => $panel->tag,
+    ]) ?>
 </p>
 <?php
 

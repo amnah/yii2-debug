@@ -43,7 +43,7 @@ $this->title = 'Yii Debugger';
 
 if (isset($this->context->module->panels['db']) && isset($this->context->module->panels['request'])) {
 
-    echo "			<h1>Available Debug Data</h1>";
+    echo '			<h1>Available Debug Data</h1>';
 
     $codes = [];
     foreach ($manifest as $currentTagNotUsed => $vals) {
@@ -58,7 +58,6 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'rowOptions' => function ($model, $key, $index, $grid) use ($searchModel, $tag, $currentTag) {
-
             $dbPanel = $this->context->module->panels['db'];
 
             if ($searchModel->isCodeCritical($model['statusCode']) || $dbPanel->isQueryCountCritical($model['sqlCount'])) {
@@ -67,9 +66,8 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
                 return ['class'=>'success'];
             } elseif ($currentTag == $model["tag"]) {
                 return ['class'=>'info'];
-            } else {
-                return [];
             }
+            return [];
         },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -121,9 +119,8 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
                             'title' => 'Too many queries. Allowed count is ' . $dbPanel->criticalQueryThreshold,
                         ]);
 
-                    } else {
-                        return $data['sqlCount'];
                     }
+                    return $data['sqlCount'];
                 },
                 'format' => 'raw',
             ],

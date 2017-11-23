@@ -13,22 +13,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'Yii Debugger';
-
 ?>
-
-<style>
-.link-hover:hover {
-    text-decoration: none;
-    color: #4fb8ff;
-}
-</style>
-
 <div class="default-index">
     <div id="yii-debug-toolbar" class="yii-debug-toolbar yii-debug-toolbar_position_top" style="display: none;">
         <div class="yii-debug-toolbar__bar">
             <div class="yii-debug-toolbar__block yii-debug-toolbar__title">
                 <a href="#">
-                    <img width="29" height="30" alt="" src="<?= \yii\debug\Module::getYiiLogo() ?>">
+                    <img width="30" height="30" alt="" src="<?= \yii\debug\Module::getYiiLogo() ?>">
                 </a>
             </div>
             <?php foreach ($panels as $panel): ?>
@@ -41,8 +32,6 @@ $this->title = 'Yii Debugger';
         <div class="row">
 <?php
 
-if (isset($this->context->module->panels['db']) && isset($this->context->module->panels['request'])) {
-
     echo '			<h1>Available Debug Data</h1>';
 
     $codes = [];
@@ -54,13 +43,17 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
     $codes = array_unique($codes, SORT_NUMERIC);
     $statusCodes = !empty($codes) ? array_combine($codes, $codes) : null;
 
+    $hasDbPanel = isset($panels['db']);
+
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'rowOptions' => function ($model, $key, $index, $grid) use ($searchModel, $tag, $currentTag) {
-            $dbPanel = $this->context->module->panels['db'];
+        'rowOptions' => function ($model, $key, $index, $grid) use ($searchModel, $tag, $currentTag, $hasDbPanel) {
+            if ($searchModel->isCodeCritical($model['statusCode'])) {
+                return ['class'=>'danger'];
+            }
 
-            if ($searchModel->isCodeCritical($model['statusCode']) || $dbPanel->isQueryCountCritical($model['sqlCount'])) {
+            if ($hasDbPanel && $this->context->module->panels['db']->isQueryCountCritical($model['sqlCount'])) {
                 return ['class'=>'danger'];
             } elseif ($tag == $model["tag"]) {
                 return ['class'=>'success'];
@@ -69,7 +62,7 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
             }
             return [];
         },
-        'columns' => [
+        'columns' => array_filter([
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute' => 'tag',
@@ -105,14 +98,13 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
                 'format' => 'raw',
             ],
             'ip',
-            [
+            $hasDbPanel ? [
                 'attribute' => 'sqlCount',
                 'label' => 'Query Count',
                 'value' => function ($data) {
                     $dbPanel = $this->context->module->panels['db'];
 
                     if ($dbPanel->isQueryCountCritical($data['sqlCount'])) {
-
                         $content = Html::tag('b', $data['sqlCount']) . ' ' . Html::tag('span', '', ['class' => 'glyphicon glyphicon-exclamation-sign']);
 
                         return Html::a($content, ['view', 'panel' => 'db', 'tag' => $data['tag']], [
@@ -123,7 +115,7 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
                     return $data['sqlCount'];
                 },
                 'format' => 'raw',
-            ],
+            ] : null,
             [
                 'attribute' => 'mailCount',
                 'visible' => isset($this->context->module->panels['mail']),
@@ -167,13 +159,8 @@ if (isset($this->context->module->panels['db']) && isset($this->context->module-
                 'filter' => $statusCodes,
                 'label' => 'Status code'
             ],
-        ],
+        ]),
     ]);
-
-} else {
-    echo "<div class='alert alert-warning'>No data available. Panel <code>db</code> or <code>request</code> not found.</div>";
-}
-
 ?>
         </div>
     </div>

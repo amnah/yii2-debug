@@ -16,7 +16,7 @@ $url = $firstPanel->getUrl();
 <div id="yii-debug-toolbar" class="yii-debug-toolbar yii-debug-toolbar_position_<?= $position ?>">
     <div class="yii-debug-toolbar__bar">
         <div class="yii-debug-toolbar__block yii-debug-toolbar__title">
-            <a href="<?= Url::to(['index', 'tag' => $tag, 'currentTag' => $currentTag]) ?>" target="_blank">
+            <a href="<?= Url::to(['index', 'currentTag' => $currentTag, 'tag' => $tag]) ?>" target="_blank">
                 <img width="29" height="30" alt="" src="<?= \yii\debug\Module::getYiiLogo() ?>">
             </a>
         </div>

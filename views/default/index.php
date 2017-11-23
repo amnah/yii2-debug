@@ -69,7 +69,7 @@ $this->title = 'Yii Debugger';
                 'value' => function ($data) use ($tag, $currentTag) {
                     $html = Html::a($data['tag'], ['view', 'tag' => $data['tag']], ['class' => 'link-hover']);
                     if ($tag == $data['tag']) {
-                        $html .= '<br/><small>(active request)</small>';
+                        $html .= '<br/><small>(viewing request)</small>';
                     } elseif ($currentTag == $data['tag']) {
                         $html .= '<br/><small>(current request)</small>';
                     }

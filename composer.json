@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "yiisoft/yii2-debug": "*"
+        "yiisoft/yii2-debug": "^2.0.10"
     },
     "autoload": {
         "psr-4": { "amnah\\yii2\\debug\\": "" }

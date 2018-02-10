@@ -10,12 +10,12 @@ use yii\web\View;
 class Module extends \yii\debug\Module
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $controllerNamespace = 'amnah\yii2\debug\controllers';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $historySize = 100;
 
@@ -33,7 +33,7 @@ class Module extends \yii\debug\Module
 
     /**
      * Override renderToolbar() function so we can use our own assets
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function renderToolbar($event = null)
     {
@@ -56,7 +56,7 @@ class Module extends \yii\debug\Module
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function bootstrap($app)
     {
@@ -67,7 +67,7 @@ class Module extends \yii\debug\Module
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function corePanels()
     {

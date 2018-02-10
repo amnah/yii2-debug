@@ -1,4 +1,10 @@
 <?php
+
+use yii\data\ArrayDataProvider;
+use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /* @var $this \yii\web\View */
 /* @var $manifest array */
 /* @var $searchModel \yii\debug\models\search\Debug */
@@ -6,11 +12,6 @@
 /* @var $panels \yii\debug\Panel[] */
 /* @var $tag string */
 /* @var $currentTag string */
-
-use yii\data\ArrayDataProvider;
-use yii\grid\GridView;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 $this->title = 'Yii Debugger';
 ?>

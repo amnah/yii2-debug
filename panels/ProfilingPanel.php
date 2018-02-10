@@ -9,7 +9,7 @@ class ProfilingPanel extends \yii\debug\panels\ProfilingPanel
 {
     /**
      * This adds the 'numFiles' data
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSummary()
     {
@@ -23,7 +23,7 @@ class ProfilingPanel extends \yii\debug\panels\ProfilingPanel
 
     /**
      * This adds the 'numFiles' data
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDetail()
     {
@@ -42,7 +42,7 @@ class ProfilingPanel extends \yii\debug\panels\ProfilingPanel
 
     /**
      * This adds the 'numFiles' data
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function save()
     {

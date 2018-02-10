@@ -5,7 +5,7 @@ namespace amnah\yii2\debug;
 class LogTarget extends \yii\debug\LogTarget
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function collectSummary()
     {

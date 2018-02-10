@@ -1,9 +1,8 @@
 <?php
 
-/* @var $panel yii\debug\panels\UserPanel */
-
 use yii\grid\GridView;
 
+/* @var $panel yii\debug\panels\UserPanel */
 ?>
 
 <?php

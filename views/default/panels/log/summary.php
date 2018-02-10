@@ -1,10 +1,10 @@
 <?php
-/* @var $panel yii\debug\panels\LogPanel */
-/* @var $data array */
 
 use yii\log\Target;
 use yii\log\Logger;
 
+/* @var $panel yii\debug\panels\LogPanel */
+/* @var $data array */
 ?>
 
 <?php

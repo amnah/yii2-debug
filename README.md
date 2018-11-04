@@ -2,7 +2,19 @@
 
 This is an improved version of the official [yii2-debug](https://github.com/yiisoft/yii2-debug) module.
 
-The main benefit of this version is that it captures ajax calls and updates the debugbar accordingly. Additionally, the main common panels are more compact.
+The main benefit of this version is that it captures ajax calls and updates the debugbar accordingly.
+Additionally, the main common panels are more compact.
+
+Note: The official yii2-debug has since added its own ajax implementation. Their version is a hover div
+instead of a dropdown. You can see the difference in images below
+
+## Demo image:
+
+![demo](demo.png "demo")
+
+## Official Yii2 Debug image (for reference):
+
+![official](official.png "official")
 
 ## Installation:
 
@@ -21,7 +33,3 @@ if (YII_ENV_DEV) {
     ];
 }
 ```
-
-## Demo image:
-
-![demo](demo.png "demo")

@@ -259,6 +259,10 @@
     }
 
     function renderAjaxRequests() {
+
+        loadToolbar()
+        return
+
         var requestCounter = document.getElementsByClassName('yii-debug-toolbar__ajax_counter');
         if (!requestCounter.length) {
             return;
@@ -353,7 +357,9 @@
 
         // fix https://github.com/yiisoft/yii2-debug/issues/326
         /* prevent logging AJAX calls to static and inline files, like templates */
-        if (url && url.substr(0, 1) === '/' && !url.match(new RegExp('{{ excluded_ajax_paths }}'))) {
+        /* also prevent debug ajax calls */
+        var debugAjaxCall = url && url.indexOf(baseDebugUrl) >= 0
+        if (url && url.substr(0, 1) === '/' && !url.match(new RegExp('{{ excluded_ajax_paths }}')) && !debugAjaxCall) {
             var stackElement = {
                 loading: true,
                 error: false,
@@ -398,7 +404,8 @@
             var promise = originalFetch(input, init);
 
             /* prevent logging AJAX calls to static and inline files, like templates */
-            if (url && url.substr(0, 1) === '/' && !url.match(new RegExp('{{ excluded_ajax_paths }}'))) {
+            var debugAjaxCall = url && url.indexOf(baseDebugUrl) >= 0
+            if (url && url.substr(0, 1) === '/' && !url.match(new RegExp('{{ excluded_ajax_paths }}')) && !debugAjaxCall) {
                 var stackElement = {
                     loading: true,
                     error: false,

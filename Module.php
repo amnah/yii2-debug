@@ -51,6 +51,7 @@ class Module extends \yii\debug\Module
             /* @var $view View */
             $view = isset($event->sender) ? $event->sender : new View();
             echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.css') . '</style>';
+            echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar-custom.css') . '</style>';
             echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/toolbar.js') . '</script>';
         }
     }

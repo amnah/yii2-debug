@@ -1,0 +1,7 @@
+#yii-debug-toolbar .yii-debug-toolbar__block {
+    padding: 2px 6px;
+}
+
+#yii-debug-toolbar__tag-selector {
+    width: 250px;
+}

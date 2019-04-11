@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+    // ---------------------- variables -------------------------
     var findToolbar = function () {
             return document.querySelector('#yii-debug-toolbar');
         },
@@ -20,8 +21,8 @@
                 }
             };
             xhr.send(settings.data || '');
+            return xhr
         },
-        url,
         div,
         toolbarEl = findToolbar(),
         toolbarAnimatingClass = 'yii-debug-toolbar_animating',
@@ -42,19 +43,60 @@
         titleClass = 'yii-debug-toolbar__title',
         blockClass = 'yii-debug-toolbar__block',
         blockActiveClass = 'yii-debug-toolbar__block_active',
-        requestStack = [];
+        requestStack = [],
 
+        // set up custom toolbar stuff
+        tagSelectorId = '#yii-debug-toolbar__tag-selector',
+        baseDebugUrl = window.yii2debugBaseDebugUrl,
+        currentTag = window.yii2debugCurrentTag  || '',
+        currentXhr = null;
+
+
+    // ---------------------- initialize -------------------------
     if (toolbarEl) {
-        url = toolbarEl.getAttribute('data-url');
+        loadToolbar()
+    } else {
+        return
+    }
 
-        ajax(url, {
+
+    // ---------------------- functions -------------------------
+
+    var setupTagSelector = function() {
+        var tagSelectorEl = document.querySelector(tagSelectorId);
+        tagSelectorEl.onchange = function() {
+            // check for value
+            if (this.value == "0") {
+                return;
+            }
+            loadToolbar(this.value);
+        };
+    };
+
+    function loadToolbar(tag) {
+
+        // cancel prev xhr request
+        if (currentXhr) {
+            currentXhr.abort();
+        }
+
+        //url = toolbarEl.getAttribute('data-url');
+        // compute url
+        var url = baseDebugUrl + '?currentTag=' + currentTag;
+        if (tag) {
+            url = url + '&tag=' + tag;
+        }
+
+        currentXhr = ajax(url, {
             success: function (xhr) {
                 div = document.createElement('div');
                 div.innerHTML = xhr.responseText;
 
-                toolbarEl.parentNode && toolbarEl.parentNode.replaceChild(div, toolbarEl);
+                toolbarEl = findToolbar()
+                toolbarEl.parentNode.replaceChild(div, toolbarEl);
 
                 showToolbar(findToolbar());
+                setupTagSelector()
             },
             error: function (xhr) {
                 toolbarEl.innerText = xhr.responseText;

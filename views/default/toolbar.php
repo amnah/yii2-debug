@@ -21,6 +21,11 @@ $url = $firstPanel->getUrl();
             </a>
         </div>
 
+        <div class="yii-debug-toolbar__block yii-debug-toolbar__tag-selector">
+            <?= Html::dropDownList("tag", $tag, $urls, ["id" => "yii-debug-toolbar__tag-selector"]) ?>
+        </div>
+
+        <!-- we comment this out so that ajax calls won't make weird visual effects trying to show/hide the ajax data
         <div class="yii-debug-toolbar__block yii-debug-toolbar__ajax" style="display: none">
             AJAX <span class="yii-debug-toolbar__label yii-debug-toolbar__ajax_counter">0</span>
             <div class="yii-debug-toolbar__ajax_info">
@@ -38,6 +43,7 @@ $url = $firstPanel->getUrl();
                 </table>
             </div>
         </div>
+        -->
 
         <?php foreach ($panels as $panel): ?>
             <?php if ($panel->hasError()): ?>

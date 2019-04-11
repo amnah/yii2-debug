@@ -1,8 +1,9 @@
 <?php
-/* @var $model array */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+
+/* @var $model array */
 
 echo DetailView::widget([
     'model' => $model,
@@ -30,7 +31,7 @@ echo DetailView::widget([
         'cc',
         [
             'attribute' => 'file',
-            'format' => 'raw',
+            'format' => 'html',
             'value' => Html::a('Download eml', ['download-mail', 'file' => $model['file']]),
         ],
     ],

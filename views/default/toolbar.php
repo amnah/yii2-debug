@@ -6,35 +6,54 @@ use yii\helpers\Url;
 /* @var $this \yii\web\View */
 /* @var $panels \yii\debug\Panel[] */
 /* @var $tag string */
-/* @var $currentTag string */
 /* @var $position string */
-/* @var $urls array */
+/* @var $defaultHeight int */
 
 $firstPanel = reset($panels);
 $url = $firstPanel->getUrl();
 ?>
-<div id="yii-debug-toolbar" class="yii-debug-toolbar yii-debug-toolbar_position_<?= $position ?>">
+<div id="yii-debug-toolbar" class="yii-debug-toolbar yii-debug-toolbar_position_<?= $position ?>" data-height="<?= $defaultHeight ?>">
+    <div class="yii-debug-toolbar__resize-handle"></div>
     <div class="yii-debug-toolbar__bar">
         <div class="yii-debug-toolbar__block yii-debug-toolbar__title">
-            <a href="<?= Url::to(['index', 'currentTag' => $currentTag, 'tag' => $tag]) ?>" target="_blank">
-                <img width="29" height="30" alt="Yii" src="<?= \yii\debug\Module::getYiiLogo() ?>">
+            <a href="<?= Url::to(['index']) ?>">
+                <img width="30" height="30" alt="Yii" src="<?= \yii\debug\Module::getYiiLogo() ?>">
             </a>
         </div>
 
-        <div class="yii-debug-toolbar__block yii-debug-toolbar__tag-selector">
-            <?= Html::dropDownList("tag", $tag, $urls, ["id" => "yii-debug-toolbar__tag-selector"]) ?>
+        <div class="yii-debug-toolbar__block yii-debug-toolbar__ajax" style="display: none">
+            AJAX <span class="yii-debug-toolbar__label yii-debug-toolbar__ajax_counter">0</span>
+            <div class="yii-debug-toolbar__ajax_info">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>URL</th>
+                        <th>Time</th>
+                        <th>Profile</th>
+                    </tr>
+                    </thead>
+                    <tbody class="yii-debug-toolbar__ajax_requests"></tbody>
+                </table>
+            </div>
         </div>
 
         <?php foreach ($panels as $panel): ?>
-            <?php
-                /** @var string $summary */
-                // add in panel id into div class
-                $summary = $panel->getSummary();
-                $summary = str_replace('<div class="yii-debug-toolbar__block', '<div class="yii-debug-toolbar__block yii-debug-toolbar__'.$panel->id, $summary);
-                echo $summary;
-            ?>
+            <?php if ($panel->hasError()): ?>
+                <div class="yii-debug-toolbar__block">
+                    <a href="<?= $panel->getUrl() ?>"
+                       title="<?= Html::encode($panel->getError()->getMessage()); ?>"><?= Html::encode($panel->getName()) ?>
+                        <span class="yii-debug-toolbar__label yii-debug-toolbar__label_error">error</span></a>
+                </div>
+            <?php else: ?>
+                <?= $panel->getSummary() ?>
+            <?php endif; ?>
         <?php endforeach; ?>
 
+        <div class="yii-debug-toolbar__block_last">
+
+        </div>
         <a class="yii-debug-toolbar__external" href="#" target="_blank">
             <span class="yii-debug-toolbar__external-icon"></span>
         </a>
@@ -45,6 +64,6 @@ $url = $firstPanel->getUrl();
     </div>
 
     <div class="yii-debug-toolbar__view">
-        <iframe src="about:blank" frameborder="0"></iframe>
+        <iframe src="about:blank" frameborder="0" title="Yii2 debug bar"></iframe>
     </div>
 </div>

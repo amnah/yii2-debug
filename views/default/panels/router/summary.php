@@ -6,6 +6,6 @@ use \yii\helpers\Html;
 
 ?>
 <div class="yii-debug-toolbar__block">
-    <a href="<?= $panel->getUrl() ?>" title="Action: <?= Html::encode($panel->data['action']) ?>">Route <span
+    <a href="<?= $panel->getUrl() ?>" title="Action: <?= Html::encode($panel->data['action']) ?>"><span
             class="yii-debug-toolbar__label"><?= Html::encode($panel->data['route']) ?></span></a>
 </div>

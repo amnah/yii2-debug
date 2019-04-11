@@ -112,6 +112,7 @@ class DefaultController extends \yii\debug\controllers\DefaultController
             'currentTag' => $currentTag,
             'panels' => $this->module->panels,
             'position' => 'bottom',
+            'defaultHeight' => $this->module->defaultHeight,
         ]);
     }
 }

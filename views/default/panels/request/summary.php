@@ -20,7 +20,8 @@ $statusText = Html::encode(isset(Response::$httpStatuses[$statusCode]) ? Respons
 $requestTime = date("H:i:s", $panel->data["SERVER"]["REQUEST_TIME"]);
 ?>
 <div class="yii-debug-toolbar__block">
-    <a href="<?= $panel->getUrl() ?>" title="Status code: <?= $statusCode ?> <?= $statusText ?>"><span class="yii-debug-toolbar__label <?= $class ?>"><?= $statusCode ?></span></a>
-    <a href="<?= $panel->getUrl() ?>" title="Request time: <?= $requestTime ?>"><span class="yii-debug-toolbar__label"><?= $requestTime ?></span></a>
-    <a href="<?= $panel->getUrl() ?>" title="Action: <?= $panel->data['action'] ?>"><span class="yii-debug-toolbar__label"><?= $panel->data['route'] ?></span></a>
+    <a href="<?= $panel->getUrl() ?>" title="Status code: <?= $statusCode ?> <?= $statusText ?>"><span
+            class="yii-debug-toolbar__label <?= $class ?>"><?= $statusCode ?></span></a>
+    <a href="<?= $panel->getUrl() ?>" title="Request time: <?= $requestTime ?>"><span
+            class="yii-debug-toolbar__label"><?= $requestTime ?></span></a>
 </div>

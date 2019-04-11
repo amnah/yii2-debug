@@ -193,9 +193,13 @@
             ) {
                 while (target !== this) {
                     if (target.href) {
-                        removeActiveBlocksCls();
-                        block.classList.add(blockActiveClass);
-                        showIframe(target.href);
+                        if (block.classList.contains(blockActiveClass) && isIframeActive()) {
+                            hideIframe()
+                        } else {
+                            removeActiveBlocksCls();
+                            block.classList.add(blockActiveClass);
+                            showIframe(target.href);
+                        }
                     }
                     target = target.parentNode;
                 }
